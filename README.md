@@ -1,6 +1,6 @@
 # Vidoozle - Video Conferencing and Virtual Partner Application
 
-Vidoozle is an innovative web application designed to enhance social interaction through two unique features: **Video Conferencing** and a **Virtual Partner** experience. This project connects users randomly for video calls and provides an AI-driven virtual companion, making it a fun and engaging platform for meaningful conversations.
+Vidoozle is an innovative web application designed to enhance social interaction through two unique features: **Video Conferencing with random people** and a **Virtual Partner** experience. This project connects users randomly for video calls and provides an AI-driven virtual companion, making it a fun and engaging platform for meaningful conversations.
 
 ## Table of Contents
 
