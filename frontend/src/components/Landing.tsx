@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { Room } from "./Room1";
+import { Room } from "./Room";
 import { Navbar } from "./Navbar";
 
 export const Landing = () => {
