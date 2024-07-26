@@ -15,22 +15,15 @@ const Button = ({ label, onClick, isLoading, disabled }) => {
       css={{ display: "block", margin: "0 auto" }}
     />
   ) : (
-    <p style={{ margin: 0, padding: 0 }}>{label}</p>
+    <p className="m-0">{label}</p>
   );
 
   return (
     <button
       onClick={onClick}
+      disabled={disabled}
+      className={`bg-white text-black border-2 border-gray-300 rounded-lg py-2 px-5 text-lg shadow-md transition-all duration-300 ease-in-out opacity-${opacity} cursor-${cursor} hover:bg-gray-100`}
       style={{
-        backgroundColor: "white",
-        color: "black",
-        border: "2px solid #ddd",
-        borderRadius: "8px",
-        padding: "8px 20px",
-        fontSize: "16px",
-        outline: "none",
-        boxShadow: "0px 4px 8px rgba(0,0,0,0.1)",
-        transition: "all 0.3s ease",
         opacity,
         cursor,
       }}

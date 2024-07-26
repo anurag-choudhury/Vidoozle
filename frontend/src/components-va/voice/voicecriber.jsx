@@ -12,8 +12,8 @@ const Voicecriber = () => {
             method: 'GET',
             headers: {
                 accept: 'application/json',
-                AUTHORIZATION: '25c2400fc37c49078e2664891bec9ca5',
-                'X-USER-ID': 'RrwbWkiwmzTbmHweR9cLavmRHJH2'
+                AUTHORIZATION: import.meta.env.VITE_PLAY_HT_AUTH,
+                'X-USER-ID': import.meta.env.VITE_PLAY_HT_USERID
             }
         };
         let voiceIdToDlt;
@@ -38,8 +38,8 @@ const Voicecriber = () => {
             headers: {
                 accept: 'application/json',
                 'content-type': 'application/json',
-                AUTHORIZATION: '25c2400fc37c49078e2664891bec9ca5',
-                'X-USER-ID': 'RrwbWkiwmzTbmHweR9cLavmRHJH2'
+                AUTHORIZATION: import.meta.env.VITE_PLAY_HT_AUTH,
+                'X-USER-ID': import.meta.env.VITE_PLAY_HT_USERID
             },
             body: JSON.stringify({ voice_id: voiceIdToDlt })
         };
@@ -50,8 +50,10 @@ const Voicecriber = () => {
             .catch(err => console.error(err));
         //set the new clone voice
         const myHeaders = new Headers();
-        myHeaders.append("X-USER-ID", "RrwbWkiwmzTbmHweR9cLavmRHJH2");
-        myHeaders.append("Authorization", "Bearer 25c2400fc37c49078e2664891bec9ca5");
+        myHeaders.append("X-USER-ID", import.meta.env.VITE_PLAY_HT_USERID);
+        myHeaders.append("Authorization", import.meta.env.VITE_PLAY_HT_AUTH);
+        // myHeaders.append("X-USER-ID", "RrwbWkiwmzTbmHweR9cLavmRHJH2");
+        // myHeaders.append("Authorization", "Bearer 25c2400fc37c49078e2664891bec9ca5");
 
         const formdata = new FormData();
         formdata.append("sample_file", file);

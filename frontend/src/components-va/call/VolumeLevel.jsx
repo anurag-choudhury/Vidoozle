@@ -5,7 +5,7 @@ const numBars = 10;
 const VolumeLevel = ({ volume }) => {
   return (
     <div style={{ padding: "20px" }}>
-      <div style={{ color: "white", marginBottom: "8px" }}>
+      <div style={{ color: "black", marginBottom: "8px" }}>
         <p>Volume Level:</p>
       </div>
       <div style={{ display: "flex", marginBottom: "10px" }}>
@@ -22,7 +22,7 @@ const VolumeLevel = ({ volume }) => {
           />
         ))}
       </div>
-      <div style={{ color: "white" }}>{volume}</div>
+      <div style={{ color: "black" }}>{volume}</div>
     </div>
   );
 };

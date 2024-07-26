@@ -12,7 +12,7 @@ const AssistantSpeechIndicator = ({ isSpeaking }) => {
           borderRadius: "4px",
         }}
       />
-      <p style={{ color: "white", margin: 0 }}>
+      <p style={{ color: "black", margin: 0 }}>
         {isSpeaking ? "Assistant speaking" : "Assistant not speaking"}
       </p>
     </div>

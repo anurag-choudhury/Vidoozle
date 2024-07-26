@@ -9,7 +9,7 @@ import Voicecriber from "./components-va/voice/voicecriber";
 
 // Put your Vapi Public Key below.
 //TODO: api keys
-const vapi = new Vapi("7bf0239a-6eec-4962-9764-41820a914d5f");
+const vapi = new Vapi(import.meta.env.VITE_APP_VAPI_KEY);
 
 const Call = ({ playHtVoiceId, buttonLabel }) => {
     const [connecting, setConnecting] = useState(false);
@@ -72,33 +72,26 @@ const Call = ({ playHtVoiceId, buttonLabel }) => {
 
     return (
 
-        <div
-            style={{
-                display: "flex",
-                color: "black",
-                // width: "100vw",
-                // height: "100vh",
-                justifyContent: "center",
-                alignItems: "center",
-            }}
-        >
-
+        <div className="flex flex-col items-center justify-center  bg-gray-50 text-black">
             {!connected ? (
                 <Button
                     label={buttonLabel || "Call"}
                     onClick={startCallInline}
                     isLoading={connecting}
+                    className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
                 />
             ) : (
                 <ActiveCallDetail
                     assistantIsSpeaking={assistantIsSpeaking}
                     volumeLevel={volumeLevel}
                     onEndCallClick={endCall}
+                    className="mt-4" // Optional: Add margin for spacing if needed
                 />
             )}
 
-            {showPublicKeyInvalidMessage ? <PleaseSetYourPublicKeyMessage /> : null}
+            {showPublicKeyInvalidMessage && <PleaseSetYourPublicKeyMessage className="mt-4 text-red-500" />}
         </div>
+
     );
 };
 
