@@ -1,17 +1,22 @@
 {
   "name": "frontend",
   "private": true,
+  "proxy": "https://api.play.ht",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "react-scripts start",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "@vapi-ai/web": "^2.1.0",
+    "audio-recorder-polyfill": "^0.4.1",
+    "node-fetch": "^3.3.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "socket.io-client": "^4.7.3"
   },
   "devDependencies": {
@@ -27,7 +32,7 @@
     "postcss": "^8.4.35",
     "react-router-dom": "^6.21.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5"
   }
 }
