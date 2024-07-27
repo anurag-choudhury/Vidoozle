@@ -9,12 +9,7 @@ Vidoozle is an innovative web application designed to enhance social interaction
   - [Virtual Partner](#virtual-partner)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Environment Variables](#environment-variables)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
-
+- [Backend]
 ## Features
 
 ### Video Conferencing
