@@ -52,8 +52,6 @@ const Voicecriber = () => {
         const myHeaders = new Headers();
         myHeaders.append("X-USER-ID", import.meta.env.VITE_PLAY_HT_USERID);
         myHeaders.append("Authorization", import.meta.env.VITE_PLAY_HT_AUTH);
-        // myHeaders.append("X-USER-ID", "RrwbWkiwmzTbmHweR9cLavmRHJH2");
-        // myHeaders.append("Authorization", "Bearer 25c2400fc37c49078e2664891bec9ca5");
 
         const formdata = new FormData();
         formdata.append("sample_file", file);
