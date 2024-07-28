@@ -62,7 +62,8 @@ export const Room = ({
 
     useEffect(() => {
         const socket = new WebSocket(
-            "wss://ccme03ln92.execute-api.eu-north-1.amazonaws.com/production/",
+            "wss://vidoozle.onrender.com"
+            // "wss://ccme03ln92.execute-api.eu-north-1.amazonaws.com/production/",
             // "ws://localhost:3000",
         ); // Replace with your WebSocket server URL
 
