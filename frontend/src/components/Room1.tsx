@@ -67,7 +67,7 @@ export const Room = ({
                 "name": name
             }
         });
-        socket.on('send-offer', async ({roomId} : {roomId: string}) => {
+        socket.on('send-offer', async ({ roomId }: { roomId: string }) => {
             console.log("sending offer");
             setLobby(false);
             const pc = new RTCPeerConnection();
@@ -86,11 +86,11 @@ export const Room = ({
             pc.onicecandidate = async (e) => {
                 console.log("receiving ice candidate locally");
                 if (e.candidate) {
-                   socket.emit("add-ice-candidate", {
-                    candidate: e.candidate,
-                    type: "sender",
-                    roomId
-                   })
+                    socket.emit("add-ice-candidate", {
+                        candidate: e.candidate,
+                        type: "sender",
+                        roomId
+                    })
                 }
             }
 
@@ -109,22 +109,22 @@ export const Room = ({
             setSendingPc(pc);
         });
 
-        socket.on("offer", async ({roomId, sdp: remoteSdp, partnerName}) => {
+        socket.on("offer", async ({ roomId, sdp: remoteSdp, partnerName }) => {
             console.log("received offer");
             setPartnerName(partnerName);
             setLobby(false);
             const pc = new RTCPeerConnection();
-            
+
             const stream = new MediaStream();
             setRemoteMediaStream(stream)
             if (remoteVideoRef.current) {
                 remoteVideoRef.current.srcObject = stream;
             }
-            
+
             pc.ontrack = (e) => {
                 alert("ontrack");
                 console.error("inside ontrack");
-                const {track, type} = e;
+                const { track, type } = e;
                 if (type == 'audio') {
                     setRemoteAudioTrack(track);
                     // @ts-ignore
@@ -144,11 +144,11 @@ export const Room = ({
                 }
                 console.log("omn ice candidate on receiving seide");
                 if (e.candidate) {
-                   socket.emit("add-ice-candidate", {
-                    candidate: e.candidate,
-                    type: "receiver",
-                    roomId
-                   })
+                    socket.emit("add-ice-candidate", {
+                        candidate: e.candidate,
+                        type: "receiver",
+                        roomId
+                    })
                 }
             }
             const dc = pc.createDataChannel("chat", { negotiated: true, id: 0 });
@@ -156,10 +156,10 @@ export const Room = ({
             dc.onmessage = (e) => {
                 setChatMessages(prevMessages => [[partnerName, e.data], ...prevMessages]);
             }
-            dc.onclose = function () { 
+            dc.onclose = function () {
                 setChatMessages([]);
-             };
-            
+            };
+
             pc.setRemoteDescription(remoteSdp)
             const sdp = await pc.createAnswer();
             pc.setLocalDescription(sdp)
@@ -172,7 +172,7 @@ export const Room = ({
             });
         });
 
-        socket.on("answer", ({roomId, sdp: remoteSdp}) => {
+        socket.on("answer", ({ roomId, sdp: remoteSdp }) => {
             setLobby(false);
             setSendingPc(pc => {
                 pc?.setRemoteDescription(remoteSdp)
@@ -185,9 +185,9 @@ export const Room = ({
             setLobby(true);
         })
 
-        socket.on("add-ice-candidate", ({candidate, type}) => {
+        socket.on("add-ice-candidate", ({ candidate, type }) => {
             console.log("add ice candidate from remote");
-            console.log({candidate, type})
+            console.log({ candidate, type })
             if (type == "sender") {
                 setReceivingPc(pc => {
                     if (!pc) {
@@ -229,71 +229,71 @@ export const Room = ({
 
     return (
         <div className={`flex flex-col h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-800'}`}>
-        <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} name={name} />
-        <div className={`bg-${darkMode ? 'gray-900' : 'gray-200'} text-${darkMode ? 'white' : 'black'} h-full flex flex-col items-center justify-center py-8`}>
-            <div className="flex w-full">
-                {/* Left Part */}
-                <div className="flex-1 flex flex-col items-center justify-center">
-                    <div className="w-3/4">
-                        <video autoPlay width={400} height={400} ref={localVideoRef} className="m-2" />
-                        {lobby && <p className="text-gray-500 text-sm">Waiting to connect you to someone</p>}
-                        <video autoPlay width={400} height={400} ref={remoteVideoRef} className="m-2" />
-                        <div className="flex mt-4">
-                            <button onClick={() => {
-                                if (socket) {
-                                    handleLeave();
-                                    socket.emit("leave");
+            <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} name={name} />
+            <div className={`bg-${darkMode ? 'gray-900' : 'gray-200'} text-${darkMode ? 'white' : 'black'} h-full flex flex-col items-center justify-center py-8`}>
+                <div className="flex w-full">
+                    {/* Left Part */}
+                    <div className="flex-1 flex flex-col items-center justify-center">
+                        <div className="w-3/4">
+                            <video autoPlay width={400} height={400} ref={localVideoRef} className="m-2" />
+                            {lobby && <p className="text-gray-500 text-sm">Waiting to connect you to someone</p>}
+                            <video autoPlay width={400} height={400} ref={remoteVideoRef} className="m-2" />
+                            <div className="flex mt-4">
+                                <button onClick={() => {
+                                    if (socket) {
+                                        handleLeave();
+                                        socket.emit("leave");
+                                    }
+                                }} className={`px-4 py-2 ${darkMode ? 'bg-blue-500' : 'bg-blue-600'} text-white rounded-md mr-4 ${darkMode ? 'hover:bg-blue-600' : 'hover:bg-blue-700'}`}>Skip</button>
+                                <button onClick={() => {
+                                    if (socket) {
+                                        handleLeave();
+                                        socket.emit("close");
+                                        setJoined(false);
+                                    }
+                                }} className={`px-4 py-2 ${darkMode ? 'bg-red-500' : 'bg-red-600'} text-white rounded-md ${darkMode ? 'hover:bg-red-600' : 'hover:bg-red-700'}`}>Leave</button>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Right Part */}
+                    <div className="flex-1 flex flex-col items-center justify-center">
+                        <div className=" w-1/2 text-left">You are now chatting with {partnerName}</div>
+                        <div className={`w-1/2 bg-${darkMode ? 'gray-700' : 'gray-100'} p-4 rounded-lg shadow-md h-[600px] overflow-y-auto flex flex-col-reverse`}>
+                            {chatMessages.map((message, index) => {
+                                if (message[0] === "You") {
+                                    return (
+                                        <div key={index} className="flex flex-col items-start mb-4">
+                                            <div className="bg-blue-500 rounded-md p-2 text-white max-w-64 break-words min-w-16">
+                                                {message[1]}
+                                            </div>
+                                            <div className="text-xs">{message[0]}</div>
+                                        </div>
+                                    );
+                                } else {
+                                    return (
+                                        <div key={index} className="flex flex-col items-end mb-4">
+                                            <div className={`bg-${darkMode ? 'gray-200' : 'white'} rounded-md p-2 text-gray-900 max-w-64 break-words min-w-16`}>
+                                                {message[1]}
+                                            </div>
+                                            <div className="text-xs">{message[0]}</div>
+                                        </div>
+                                    );
                                 }
-                            }} className={`px-4 py-2 ${darkMode ? 'bg-blue-500' : 'bg-blue-600'} text-white rounded-md mr-4 ${darkMode ? 'hover:bg-blue-600' : 'hover:bg-blue-700'}`}>Skip</button>
+                            })}
+                        </div>
+                        <div className="mt-4 w-1/2">
+                            <input value={chat} placeholder="Message" onChange={(e) => setChat(e.target.value)} type="text" className={`w-full px-4 py-2 border ${darkMode ? 'border-gray-700 text-white bg-gray-700' : 'border-gray-300 bg-white'} rounded-md focus:outline-none`} />
                             <button onClick={() => {
-                                if (socket) {
-                                    handleLeave();
-                                    socket.emit("close");
-                                    setJoined(false);
+                                if (sendingDc && chat.trim() !== "") {
+                                    setChatMessages(prevMessages => [["You", chat], ...prevMessages]);
+                                    sendingDc.send(chat);
+                                    setChat('');
                                 }
-                            }} className={`px-4 py-2 ${darkMode ? 'bg-red-500' : 'bg-red-600'} text-white rounded-md ${darkMode ? 'hover:bg-red-600' : 'hover:bg-red-700'}`}>Leave</button>
+                            }} className={`w-full mt-2 px-4 py-2 ${darkMode ? 'bg-green-500' : 'bg-green-600'} text-white rounded-md ${darkMode ? 'hover:bg-green-600' : 'hover:bg-green-700'}`}>Send</button>
                         </div>
                     </div>
                 </div>
-                {/* Right Part */}
-                <div className="flex-1 flex flex-col items-center justify-center">
-                    <div className=" w-1/2 text-left">You are now chatting with {partnerName}</div>
-                    <div className={`w-1/2 bg-${darkMode ? 'gray-700' : 'gray-100'} p-4 rounded-lg shadow-md h-[600px] overflow-y-auto flex flex-col-reverse`}>
-                        {chatMessages.map((message, index) => {
-                            if (message[0] === "You") {
-                                return (
-                                <div key={index} className="flex flex-col items-start mb-4">
-                                    <div className="bg-blue-500 rounded-md p-2 text-white max-w-64 break-words min-w-16">
-                                        {message[1]}
-                                    </div>
-                                    <div className="text-xs">{message[0]}</div>
-                                </div>
-                                );
-                            } else {
-                                return (
-                                <div key={index} className="flex flex-col items-end mb-4">
-                                    <div className={`bg-${darkMode ? 'gray-200' : 'white'} rounded-md p-2 text-gray-900 max-w-64 break-words min-w-16`}>
-                                        {message[1]}
-                                    </div>
-                                    <div className="text-xs">{message[0]}</div>
-                                </div>
-                                );
-                            }
-                        })}
-                    </div>
-                    <div className="mt-4 w-1/2">
-                        <input value={chat} placeholder="Message" onChange={(e) => setChat(e.target.value)} type="text" className={`w-full px-4 py-2 border ${darkMode ? 'border-gray-700 text-white bg-gray-700' : 'border-gray-300 bg-white'} rounded-md focus:outline-none`} />
-                        <button onClick={() => {
-                            if (sendingDc && chat.trim() !== "") {
-                                setChatMessages(prevMessages => [["You", chat], ...prevMessages]);
-                                sendingDc.send(chat);
-                                setChat('');
-                            }
-                        }} className={`w-full mt-2 px-4 py-2 ${darkMode ? 'bg-green-500' : 'bg-green-600'} text-white rounded-md ${darkMode ? 'hover:bg-green-600' : 'hover:bg-green-700'}`}>Send</button>
-                    </div>
-                </div>
             </div>
-        </div>
         </div>
     );
 }
